@@ -9,7 +9,7 @@ function getElementsByXPath(xpath, parent) {
 }
 
 async function getCorrections(specialShit) {
-    if(specialShit == false){
+    if (specialShit == false) {
         let correction = getElementsByXPath("//span[text()='Voir la correction']")
         if (correction && correction.length > 0) {
             console.log("Correction found")
@@ -24,7 +24,7 @@ async function getCorrections(specialShit) {
             return false
         }
     }
-    if(specialShit == true){
+    if (specialShit == true) {
         let correction = getElementsByXPath("//button[@class='button-outline-default-large hidden min-w-48 mr-6 lg:flex lg:items-center' and span[text()='Correction']]")
         if (correction && correction.length > 0) {
             correction.forEach(element => {
@@ -35,9 +35,9 @@ async function getCorrections(specialShit) {
             console.error("No corrections found")
 
         }
-      
+
     }
-    return 
+    return
 }
 
 
@@ -79,27 +79,27 @@ async function clickOnValidateOrNext() {
 
 }
 
-async function findIfLastPageAndReturnToList(){   
+async function findIfLastPageAndReturnToList() {
 
-        let returnToList = getElementsByXPath('//span[contains(text(), "Retour à la liste") and contains(@class, "text-white")]')
-        if(returnToList && returnToList.length > 0){
-            console.log('return to list')
-            returnToList[0].click()
-            await new Promise(r => setTimeout(r, timeout));
-            return 
-        }   
+    let returnToList = getElementsByXPath('//span[contains(text(), "Retour à la liste") and contains(@class, "text-white")]')
+    if (returnToList && returnToList.length > 0) {
+        console.log('return to list')
+        returnToList[0].click()
+        await new Promise(r => setTimeout(r, timeout));
         return
-    
+    }
+    return
+
 }
 
-async function doShit(){
+async function doShit() {
     let terminate = getElementsByXPath('//button[contains(text(), "Terminer") and contains(@class, "button-solid-primary-large")]')
     let i = 0
     let twoPageShitBoolean = false
     let twoPageShit = getElementsByXPath("//button[@class='button-outline-default-large hidden min-w-48 mr-6 lg:flex lg:items-center' and span[text()='Correction']]")
-    while(terminate.length == 0 && i <= 30){
+    while (terminate.length == 0 && i <= 30) {
         console.log('i = ' + i)
-        if(twoPageShit && twoPageShit.length > 0 && twoPageShitBoolean == false){
+        if (twoPageShit && twoPageShit.length > 0 && twoPageShitBoolean == false) {
             console.log("It's special shit")
             twoPageShitBoolean = true
         }
@@ -120,31 +120,30 @@ async function doShit(){
     }
     console.log("Exercice finished")
     await new Promise(r => setTimeout(r, timeout));
-    if(terminate.length > 0){
+    if (terminate.length > 0) {
         await findIfLastPageAndReturnToList()
         console.log('Finished :)')
         return
     }
-    return 
+    return
 }
 
-async function main(){
-   let getUndoneTiles = await getElementsByXPath("//button[not(contains(span, 'Dernier score')) and (span[contains(@class, 'bg-listening')] or span[contains(@class, 'bg-reading')])]")
-   let i = 0
-    while(getUndoneTiles.length != 0 && i <= 10){
+async function main() {
+    let getUndoneTiles = await getElementsByXPath("//button[not(contains(span, 'Dernier score')) and (span[contains(@class, 'bg-listening')] or span[contains(@class, 'bg-reading')])]")
+    let i = 0
+    while (getUndoneTiles.length != 0 && i <= 10) {
         console.log('STARTING TILE ' + i)
         getUndoneTiles[0].click()
-        await new Promise(r => setTimeout(r, (timeout + 2000)));
+        await new Promise(r => setTimeout(r, (timeout + 20000)));
         await doShit()
-        await new Promise(r => setTimeout(r, (timeout + 2000)));
+        await new Promise(r => setTimeout(r, (timeout + 20000)));
 
         getUndoneTiles = getElementsByXPath("//button[not(contains(span, 'Dernier score')) and (span[contains(@class, 'bg-listening')] or span[contains(@class, 'bg-reading')])]")
         console.log("new tiles" + getUndoneTiles)
     }
 }
 
-const timeout = 3000
+const timeout = 80000
 await main()
 // If you just want to execute the script on only one exercise, you can use this line instead of the main function
 // await doShit()
-
